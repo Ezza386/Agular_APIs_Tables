@@ -8,13 +8,15 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from './users.service';
 import { AddressesComponent } from './addresses/addresses.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { BanksComponent } from './banks/banks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     AddressesComponent,
-    DashboardComponent
+    DashboardComponent,
+    BanksComponent
   ],
   imports: [
     BrowserModule,

@@ -7,11 +7,11 @@
   </select>
   <button (click)="filterAddresses()" class="search-button">Search</button>
 </div>
-
 <div *ngIf="filteredAddresses.length > 0 && searchTerm.trim() !== ''" class="search-results">
   <h2>Search Results</h2>
   <ul>
-    <li *ngFor="let address of filteredAddresses">  <td>{{ address.id }}</td>
+    <li *ngFor="let address of filteredAddresses">  
+      <td>{{ address.id }}</td>
       <td>{{ address.city }}</td>
       <td>{{ address.street_name }}</td>
       <td>{{ address.street_address }}</td>
@@ -21,9 +21,6 @@
       <td>{{ address.community }}</td></li>
   </ul>
 </div>
-
-
-
 <table class="user-table">
   <thead>
     <tr>
