@@ -1,0 +1,42 @@
+/* dashboard.component.css */
+
+.dashboard {
+    display: flex;
+  }
+  
+  .left-navigation {
+    background-color: #f5f5f5;
+    padding: 20px;
+    min-width: 200px;
+  }
+  
+  .left-navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .left-navigation li {
+    margin-bottom: 10px;
+  }
+  
+  .left-navigation a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .left-navigation a:hover {
+    background-color: hwb(199 12% 6% / 0.89);
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Optional: Add additional styling as per your design preferences */
+  
