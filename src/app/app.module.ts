@@ -9,7 +9,8 @@ import { UsersService } from './users.service';
 import { AddressesComponent } from './addresses/addresses.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BanksComponent } from './banks/banks.component';
-
+import {MatSortModule} from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,9 @@ import { BanksComponent } from './banks/banks.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSortModule,
+    MatTableModule
   ],
   providers: [
     UsersService

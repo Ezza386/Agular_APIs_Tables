@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BanksService } from '../banks.service';
+import { Banks } from '../Banks';
 
 @Component({
   selector: 'app-banks',
@@ -7,13 +8,14 @@ import { BanksService } from '../banks.service';
   styleUrls: ['./banks.component.css']
 })
 export class BanksComponent implements OnInit{
-  banks:any[] = [];
+  banks:Banks[] = [];
   searchTerm: string = '';
-  filteredaccounts: any[] = [];
+  filteredaccounts: Banks[] = [];
   errorMessage:string='No users found';
-  searchField: string = 'IBAN';
+  searchField: string = 'iban';
+  bankSize!: number;
   ngOnInit(): void {
-    this.service.getBanks().subscribe((response: any) => { // donot use any
+    this.service.getBanks().subscribe((response) => { // donot use any
       if (Array.isArray(response)) {
         this.banks = response;
       } else if (typeof response === 'object' && !Array.isArray(response)) {
@@ -26,22 +28,20 @@ export class BanksComponent implements OnInit{
     
   }
 constructor(private service:BanksService){
-//Array<Ba>
+
 }
-filterAccounts() {
+
+filterAccounts(): void {
   if (this.searchTerm.trim() !== '') {
-    this.filteredaccounts = this.banks.filter((bank: any) => {
-      const fieldValue = bank[this.searchField]?.toString().toLowerCase();
-      if (this.searchField === 'IBAN') {
-        return fieldValue === this.searchTerm.toLowerCase();
-      } else {
-        return fieldValue.includes(this.searchTerm.toLowerCase());
-      }
+    this.filteredaccounts = this.banks.filter((bank) => {
+      const fieldValue = bank.account_number.toString().toLowerCase();
+      return fieldValue.includes(this.searchTerm.toLowerCase());
     });
   } else {
     this.filteredaccounts = this.banks;
   }
 }
+
 
 }
 
