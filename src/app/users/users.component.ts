@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../users.service';
 import { Users } from '../Users';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-users',
@@ -13,17 +11,14 @@ export class UsersComponent implements OnInit {
   users: Users[] = []; // Initialize users as an empty array
   searchTerm: string = '';
   filteredUsers: Users[] = [];
-  errorMessage:string='No users found';
-  
- @ViewChild(MatSort)
-  sort!: MatSort;
+  errorMessage: string = 'No users found';
+  sortDirection: string = 'asc'; // Default sort direction
+  sortField: string = 'first_name'; // Default sort field
 
-  constructor(private service:UsersService) {
-    
-  }
+  constructor(private service: UsersService) {}
+
   ngOnInit(): void {
-    this.service.getUsers()
-    .subscribe(response => {
+    this.service.getUsers().subscribe(response => {
       if (Array.isArray(response)) {
         this.users = response; // Assign the array of users to users property
         this.filteredUsers = response;
@@ -33,46 +28,57 @@ export class UsersComponent implements OnInit {
       } else {
         console.error('Invalid API response:', response);
       }
-      if (this.sort) {
-        this.sortUsers();
-      }
+      this.sortUsers();
     });
   }
+
   filterUsers(): void {
     if (this.searchTerm.trim() !== '') {
-      this.filteredUsers = this.users.filter((user) => {
+      this.filteredUsers = this.users.filter(user => {
         const fieldValue = user.first_name.toLowerCase();
         return fieldValue.includes(this.searchTerm.toLowerCase());
       });
     } else {
       this.filteredUsers = this.users;
     }
-
+    this.sortUsers();
   }
-  
+
   sortUsers(): void {
     this.filteredUsers.sort((a, b) => {
-      // Compare the first_name property of `a` and `b` for sorting
-      const nameA = a.first_name.toLowerCase();
-      const nameB = b.first_name.toLowerCase();
-  
-      if (nameA < nameB) {
-        return -1; // `a` should come before `b`
-      } else if (nameA > nameB) {
-        return 1; // `b` should come before `a`
+      const valueA = this.getFieldValue(a);
+      const valueB = this.getFieldValue(b);
+
+      if (this.sortDirection === 'asc') {
+        return valueA.localeCompare(valueB);
       } else {
-        return 0; // No change in order
+        return valueB.localeCompare(valueA);
       }
     });
   }
- /* createPost(input: HTMLInputElement) {
-    let user = { first_name: input.value };
-    this.http.post<any>(this.url, JSON.stringify(user)).subscribe(response => {
-      console.log(response);
-      // Handle the response here
-    });
-  }*/
-  
-  
-  
+
+  toggleSortDirection(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.sortUsers();
+  }
+
+  changeSortField(field: string): void {
+    this.sortField = field;
+    this.sortUsers();
+  }
+
+  getFieldValue(user: Users): string {
+ 
+    switch (this.sortField) {
+      case 'first_name':
+        return user.first_name.toLowerCase();
+      case 'last_name':
+        return user.last_name.toLowerCase();
+      case 'email':
+        return user.email.toLowerCase();
+   //other fields can be added
+      default:
+        return '';
+    }
+  }
 }

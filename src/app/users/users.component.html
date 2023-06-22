@@ -2,7 +2,10 @@
     <input type="text" [(ngModel)]="searchTerm" (input)="filterUsers()" class="search-input">
     <button (click)="filterUsers()" class="search-button">Search</button>
   </div>
-  
+  <button (click)="changeSortField('first_name')">Sort by First Name</button>
+<button (click)="changeSortField('last_name')">Sort by Last Name</button>
+<button (click)="changeSortField('email')">Sort by Email</button>
+
   <table class="user-table"  matSort>
     <thead>
       <tr>
