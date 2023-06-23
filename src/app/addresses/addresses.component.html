@@ -7,6 +7,11 @@
   </select>
   <button (click)="filterAddresses()" class="search-button">Search</button>
 </div>
+<input  type="number" [(ngModel)]="size" placeholder="Enter size">
+<button type="button" class="btn btn-primary" (click)="fetchAddress()">Fetch Addresses</button>
+<button (click)="changeSortField('city')"  class="btn btn-primary">Sort by City</button>
+<button (click)="changeSortField('street_name')"  class="btn btn-primary">Sort by Street Name</button>
+<button (click)="changeSortField('building_number')"  class="btn btn-primary">Sort by Building Number</button>
 
 <table class="user-table" matSort>
   <thead>

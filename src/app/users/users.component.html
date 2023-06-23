@@ -1,10 +1,14 @@
   <div class="search-bar">
     <input type="text" [(ngModel)]="searchTerm" (input)="filterUsers()" class="search-input">
+    
     <button (click)="filterUsers()" class="search-button">Search</button>
   </div>
-  <button (click)="changeSortField('first_name')">Sort by First Name</button>
-<button (click)="changeSortField('last_name')">Sort by Last Name</button>
-<button (click)="changeSortField('email')">Sort by Email</button>
+  <input  type="number" [(ngModel)]="size" placeholder="Enter size">
+<button type="button" class="btn btn-primary" (click)="fetchUsers()">Fetch Users</button>
+<br>
+  <button (click)="changeSortField('first_name')"  class="btn btn-primary">Sort by First Name</button>
+<button (click)="changeSortField('last_name')"  class="btn btn-primary">Sort by Last Name</button>
+<button (click)="changeSortField('email')"  class="btn btn-primary">Sort by Email</button>
 
   <table class="user-table"  matSort>
     <thead>
@@ -13,7 +17,7 @@
       </tr>
       <tr>
         <th >ID</th>
-        <th  mat-sort-header>First Name</th>
+        <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
         <th>Gender</th>

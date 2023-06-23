@@ -2,6 +2,11 @@
   <input type="text" [(ngModel)]="searchTerm" (input)="filterAccounts()" class="search-input">
   <button (click)="filterAccounts()" class="search-button">Search</button>
 </div>
+<input  type="number" [(ngModel)]="size" placeholder="Enter size">
+<button type="button" class="btn btn-primary" (click)="fetchBanks()">Fetch Banks</button>
+<br>
+<button (click)="changeSortField('id')"  class="btn btn-primary">Sort by Id</button>
+<button (click)="changeSortField('account_number')"  class="btn btn-primary">Sort by Account Number</button>
 
 
 

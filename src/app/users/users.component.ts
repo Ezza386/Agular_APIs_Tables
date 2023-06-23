@@ -14,11 +14,14 @@ export class UsersComponent implements OnInit {
   errorMessage: string = 'No users found';
   sortDirection: string = 'asc'; // Default sort direction
   sortField: string = 'first_name'; // Default sort field
-
+  size!: number;
   constructor(private service: UsersService) {}
 
   ngOnInit(): void {
-    this.service.getUsers().subscribe(response => {
+this.fetchUsers();
+  }
+  fetchUsers():void{
+    this.service.getUsers(this.size).subscribe(response => {
       if (Array.isArray(response)) {
         this.users = response; // Assign the array of users to users property
         this.filteredUsers = response;
@@ -31,7 +34,6 @@ export class UsersComponent implements OnInit {
       this.sortUsers();
     });
   }
-
   filterUsers(): void {
     if (this.searchTerm.trim() !== '') {
       this.filteredUsers = this.users.filter(user => {

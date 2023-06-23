@@ -14,23 +14,28 @@ export class BanksComponent implements OnInit{
   errorMessage:string='No users found';
   searchField: string = 'iban';
   bankSize!: number;
+  sortDirection: string = 'asc'; // Default sort direction
+  sortField: string = 'id'; // Default sort field
+  size!:number;
   ngOnInit(): void {
-    this.service.getBanks().subscribe((response) => { // donot use any
-      if (Array.isArray(response)) {
-        this.banks = response;
-      } else if (typeof response === 'object' && !Array.isArray(response)) {
-        this.banks = [response];
-      } else {
-        console.error('Invalid API response:', response);
-      }
-      this.filterAccounts();
-    });
+    this.fetchBanks();
     
   }
 constructor(private service:BanksService){
 
 }
-
+fetchBanks():void{
+  this.service.getBanks(this.size).subscribe((response) => { // donot use any
+    if (Array.isArray(response)) {
+      this.banks = response;
+    } else if (typeof response === 'object' && !Array.isArray(response)) {
+      this.banks = [response];
+    } else {
+      console.error('Invalid API response:', response);
+    }
+    this.filterAccounts();
+  });
+}
 filterAccounts(): void {
   if (this.searchTerm.trim() !== '') {
     this.filteredaccounts = this.banks.filter((bank) => {
@@ -41,7 +46,50 @@ filterAccounts(): void {
     this.filteredaccounts = this.banks;
   }
 }
+sortBanks(): void {
+  this.filteredaccounts.sort((a, b) => {
+    const valueA = this.getFieldValue(a);
+    const valueB = this.getFieldValue(b);
 
+    if (this.sortField === 'id') {
+      if (this.sortDirection === 'asc') {
+        return valueA - valueB; // Compare as numbers in ascending order
+      } else {
+        return valueB - valueA; // Compare as numbers in descending order
+      }
+    } else {
+      if (this.sortDirection === 'asc') {
+        return valueA.localeCompare(valueB); // Compare as strings in ascending order
+      } else {
+        return valueB.localeCompare(valueA); // Compare as strings in descending order
+      }
+    }
+  });
+}
+
+toggleSortDirection(): void {
+  this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+  this.sortBanks();
+}
+
+changeSortField(field: string): void {
+  this.sortField = field;
+  this.sortBanks();
+}
+
+getFieldValue(bank: Banks):any {
+
+
+  switch (this.sortField) {
+    case 'id':
+      return bank.id;
+    case 'account_number':
+      return bank.account_number;
+
+    default:
+      return '';
+  }
+}
 
 }
 
